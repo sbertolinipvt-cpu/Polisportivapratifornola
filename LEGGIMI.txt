@@ -1,0 +1,155 @@
+POLISPORTIVA PRATI FORNOLA — SITO WEB
+======================================
+
+Struttura del progetto
+-----------------------
+index.html          Home page (con lo stemma ufficiale in evidenza)
+ju-jitsu.html        Sezione Ju-Jitsu (+ Gare e risultati)
+pattinaggio.html     Sezione Pattinaggio (+ Gare e risultati)
+ginnastica.html      Sezione Ginnastica
+pallavolo.html       Sezione Pallavolo (+ Gare e risultati)
+moto-club.html       Sezione Club Moto
+contatti.html        Contatti, modulo prova gratuita, mappa
+css/style.css        Stile grafico (palette nero/giallo/rosso, come lo stemma)
+js/main.js           Menu mobile, tabellone orari animato, galleria con lightbox,
+                     calendario eventi, gestione del modulo contatti
+js/admin.js          Area riservata: login, modifica testi e foto, gare e risultati
+assets/img/logo.png  Stemma ufficiale della Polisportiva (quello che avete inviato)
+assets/svg/          Illustrazioni stilizzate delle fotogallery, una per disciplina
+gen_svg.py           Script che genera le illustrazioni (non serve al sito online)
+
+Come vederlo
+-------------
+Apri index.html con un doppio clic per vederlo subito, oppure carica l'intera
+cartella su un hosting (Netlify, GitHub Pages, o lo spazio del vostro dominio).
+
+COLORI
+------
+La grafica ora usa solo i tre colori dello stemma: nero, giallo e rosso.
+Le sezioni si alternano tra rosso (Ju-Jitsu, Ginnastica, Club Moto) e giallo
+(Pattinaggio, Pallavolo) mantenendo lo stesso impianto grafico.
+
+FOTO DELLE DISCIPLINE
+----------------------
+Ogni sezione ha già un'illustrazione stilizzata (icona nell'intestazione +
+6 immagini nella fotogallery) coerente con i nuovi colori: sono disegni
+originali, non foto reali, perché non potevamo generare o usare fotografie
+di persone reali. Sostituiteli con le vostre foto vere direttamente dal
+pannello amministratore (vedi sotto: basta cliccare sull'immagine), oppure
+a mano copiando i vostri file dentro assets/img e aggiornando i percorsi
+"src" nei tag <img>.
+
+AREA AMMINISTRATORE (pannello di modifica)
+--------------------------------------------
+In basso a destra, in ogni pagina, trovate il pulsante "Area riservata".
+
+  Utente:    polis
+  Password:  vezzano
+
+Una volta entrati:
+- Tutti i testi modificabili appaiono con un bordo tratteggiato rosso:
+  ci cliccate sopra, scrivete il nuovo testo e uscite dal campo (clic altrove):
+  viene salvato subito.
+- Le immagini modificabili mostrano al passaggio del mouse la scritta
+  "cambia foto": cliccandoci sopra si apre la finestra per scegliere una
+  foto dal computer, che sostituisce quella attuale. Questo vale per:
+    · lo stemma (in ogni pagina)
+    · la FOTO DI SFONDO dell'intestazione di ogni disciplina (quella dietro
+      al titolo, sopra il rosso/giallo semi-trasparente)
+    · le 3 foto della sezione "In evidenza"
+    · le 9 foto della fotogallery
+- FOTOGALLERY AMPLIABILE E DIVISA PER CATEGORIA: ogni fotogallery ha ora
+  3 schede filtro — "Tutte le Foto", "Allenamenti", "Gare & Podi",
+  "Stage & Eventi" — per mostrare solo le foto di quel tipo (le abbiamo già
+  assegnate alle 9 foto di partenza di ogni disciplina). In fondo alla
+  gallery, in modalità amministratore, compare il riquadro "+ Aggiungi
+  foto": cliccandoci si apre una scheda per caricare la foto dal computer,
+  scrivere una didascalia (potete indicare data e nome della foto, es.
+  "12/04/2026 – Passaggio di cintura") e scegliere la categoria giusta.
+  Anche le didascalie delle 9 foto originali sono liberamente modificabili
+  cliccandoci sopra: potete scrivere data e descrizione come preferite.
+- GARE E RISULTATI (Ju-Jitsu, Pattinaggio, Pallavolo): ogni gara è una
+  "locandina" con data, nome della gara, città e palestra/palazzetto di
+  svolgimento, più una locandina caricabile facoltativa. Da amministratori,
+  in fondo alla sezione trovate il modulo per aggiungere una nuova gara.
+  Cliccando su una locandina (lo possono fare tutti i visitatori) si apre
+  una finestra con l'elenco dei risultati di quella gara: nome e cognome
+  dell'atleta, categoria e risultato (Oro, Argento, Bronzo, posizione…).
+  Da amministratori, dentro quella finestra potete: aggiungere un nuovo
+  risultato, eliminare un risultato esistente, cambiare la locandina o
+  eliminare l'intera gara.
+- CALENDARIO EVENTI, ORA COMPLETAMENTE MODIFICABILE: sopra ogni mini
+  calendario (home e ogni disciplina), in modalità amministratore, compare
+  il pulsante "+ Aggiungi evento". Si apre una scheda dove inserire: nome
+  della manifestazione, data, disciplina (o "Tutte le discipline" per
+  farlo comparire ovunque, come nel calendario generale della home),
+  orario e luogo (facoltativi), una descrizione, la locandina dell'evento
+  e uno o più documenti allegati (regolamenti, moduli, PDF, immagini…).
+  Cliccando su un evento nell'elenco (lo possono fare tutti i visitatori)
+  si apre una finestra con tutti questi dettagli e i documenti scaricabili;
+  da amministratori potete anche cambiare la locandina, aggiungere altri
+  documenti o eliminare l'evento.
+- MAESTRI, ISTRUTTORI E ALLENATORI (Ju-Jitsu, Pattinaggio, Ginnastica,
+  Pallavolo): ogni pagina ha una sezione con le schede dello staff tecnico,
+  ognuna con foto, nome, cognome e un profilo descrittivo. In modalità
+  amministratore, in fondo alla sezione, il riquadro "+ Aggiungi maestro /
+  istruttore" apre una scheda per inserirne uno nuovo (foto facoltativa,
+  nome, cognome, profilo). Sulle schede già presenti potete: cliccare sulla
+  foto per sostituirla, cliccare su nome o profilo per modificarli
+  direttamente (bordo tratteggiato rosso, si salva uscendo dal campo), e
+  usare la "✕" in alto a destra per rimuovere una scheda.
+- Il pulsante "Ripristina testi/foto" in alto riporta testi, sfondi e foto
+  ai valori originali del sito (gare, risultati, eventi, staff e foto
+  aggiunte alla gallery NON vengono toccati da questo pulsante). Il
+  pulsante "Esci" chiude la sessione da amministratore.
+
+FOTO REALI: NOTA IMPORTANTE SUL COPYRIGHT
+--------------------------------------------
+Non abbiamo inserito foto reali trovate online: le fotografie che si
+trovano sul web (siti di federazioni, giornali, agenzie) sono quasi
+sempre protette da copyright e non possono essere ridistribuite su un
+sito diverso senza licenza, nemmeno per un'associazione sportiva. Per
+questo ogni "finestra fotografica" del sito (sfondi, "In evidenza",
+fotogallery, locandine delle gare) è pronta per ricevere le VOSTRE foto
+reali tramite il pannello amministratore descritto sopra: è la soluzione
+corretta anche dal punto di vista pratico, perché le foto migliori sono
+comunque quelle scattate ai vostri atleti e ai vostri eventi.
+
+**LIMITE IMPORTANTE DA CONOSCERE**
+Questo è un sito statico, senza un server o un database dietro. Questo
+significa che tutte le modifiche fatte dal pannello (testi, sfondi, foto,
+gare e risultati) vengono salvate solo nel browser/computer con cui avete
+fatto la modifica — un altro visitatore, da un altro dispositivo,
+continuerà a vedere i contenuti originali. È perfetto per provare il
+pannello, scrivere le bozze dei testi, caricare le foto reali e tenere una
+copia locale dei risultati delle gare da un unico computer "ufficiale" in
+sede; non sostituisce però un vero gestionale condiviso online. Se in
+futuro vorrete che le modifiche siano visibili a tutti i visitatori da
+qualunque dispositivo, serve collegare il sito a un vero backend (es. un
+piccolo database o un servizio come Firebase, Supabase o un CMS headless):
+fatecelo sapere se vi interessa, è un passo realizzabile ma richiede un
+servizio aggiuntivo (spesso a pagamento) oltre al semplice hosting del sito.
+ATTENZIONE ANCHE ALLE FOTO CARICATE: essendo salvate nella memoria del
+browser (localStorage), evitate di caricare decine di foto molto pesanti
+sullo stesso dispositivo, perché lo spazio disponibile è limitato (in
+genere 5-10MB in totale): il sito vi avviserà con un messaggio se lo
+spazio finisce.
+
+Altre personalizzazioni da fare
+---------------------------------
+1. TESTI E DATI — Orari precisi, indirizzo esatto, telefono/email reali,
+   P.IVA/C.F. ed eventi del calendario (nei tag <script> in fondo a ogni
+   pagina) sono contenuti di esempio da verificare con il direttivo.
+2. MODULO CONTATTI — Il form in contatti.html è dimostrativo: mostra solo
+   un messaggio di conferma. Per renderlo attivo collegatelo a Formspree
+   (https://formspree.io) o a un vostro script lato server.
+3. MAPPA — Sostituite le coordinate nell'iframe di contatti.html con quelle
+   esatte della sede, se necessario.
+
+Note tecniche
+-------------
+- HTML/CSS/JS puro, senza framework: leggero, veloce, facile da modificare.
+- Il tabellone degli orari resta l'elemento grafico distintivo del sito;
+  è modificabile anche a mano nelle tabelle "board-table" di ogni pagina.
+- Il sito è responsive e rispetta le preferenze di accessibilità (riduzione
+  dei movimenti, focus da tastiera, testi alternativi alle immagini).
