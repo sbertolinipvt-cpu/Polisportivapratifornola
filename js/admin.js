@@ -819,24 +819,25 @@
     modal.setAttribute("aria-modal", "true");
     modal.innerHTML =
       "<h3>Modifica cella orario</h3>" +
+      '<p class="form-note" style="margin-top:-6px;">Lascia "Orario" vuoto per svuotare la cella (comparirà un trattino "—" come le altre celle libere).</p>' +
       '<form class="form-grid" data-cell-form>' +
-      '<div><label for="cf-empty"><input type="checkbox" id="cf-empty" style="width:auto;display:inline-block;margin-right:8px;">Cella vuota (—)</label></div>' +
       '<div><label for="cf-time">Orario</label><input id="cf-time" type="text" placeholder="es. 17:00–18:00" value="' + escapeHtml(initial.time || "") + '"></div>' +
       '<div><label for="cf-label">Etichetta (facoltativa)</label><input id="cf-label" type="text" placeholder="es. Lun · tecnica" value="' + escapeHtml(initial.label || "") + '"></div>' +
       '<div class="row-actions"><button type="submit" class="btn btn-primary" style="background:var(--red);">Salva</button>' +
-      '<button type="button" class="cancel">Annulla</button></div>' +
+      '<button type="button" class="cancel">Annulla</button>' +
+      '<button type="button" class="clear-cell">Svuota cella</button></div>' +
       "</form>";
     shell.backdrop.appendChild(modal);
-    var emptyBox = modal.querySelector("#cf-empty");
-    emptyBox.checked = !!initial.empty;
     modal.querySelector(".cancel").addEventListener("click", shell.close);
+    modal.querySelector(".clear-cell").addEventListener("click", function () {
+      onSave({ empty: true, time: "", label: "" });
+      shell.close();
+    });
     modal.querySelector("[data-cell-form]").addEventListener("submit", function (e) {
       e.preventDefault();
-      onSave({
-        empty: emptyBox.checked,
-        time: modal.querySelector("#cf-time").value.trim(),
-        label: modal.querySelector("#cf-label").value.trim()
-      });
+      var time = modal.querySelector("#cf-time").value.trim();
+      var label = modal.querySelector("#cf-label").value.trim();
+      onSave({ empty: !time, time: time, label: label });
       shell.close();
     });
   }
@@ -846,9 +847,12 @@
       var code = table.getAttribute("data-board");
       var cellKey = "ppf_board_" + code;
       var rowsKey = "ppf_board_rows_" + code;
+      var deletedKey = "ppf_board_deleted_" + code;
       var dayCount = table.querySelectorAll("thead th").length - 1;
       var tbody = table.querySelector("tbody");
       var overrides = getJSON(cellKey, {});
+      var labelOverrides = getJSON("ppf_board_labels_" + code, {});
+      var deletedRows = getJSON(deletedKey, []);
 
       function saveOverrides() { setJSON(cellKey, overrides); }
 
@@ -858,66 +862,7 @@
         tmp.innerHTML = cellHtml(data.time, data.label, data.empty);
         var fresh = tmp.firstChild;
         if (cellDiv) cellDiv.replaceWith(fresh); else td.appendChild(fresh);
-        if ("IntersectionObserver" in window) fresh.classList.add("board-flip");
-      }
-
-      // applica le celle statiche modificate (per tutti i visitatori di questo browser)
-      Object.keys(overrides).forEach(function (k) {
-        var m = k.match(/^r(\d+)c(\d+)$/);
-        if (!m) return;
-        var td = tbody.querySelector('td[data-row="' + m[1] + '"][data-col="' + m[2] + '"]');
-        if (td) applyCell(td, overrides[k]);
-      });
-
-      // etichette di riga rinominate
-      var labelOverrides = getJSON("ppf_board_labels_" + code, {});
-      Object.keys(labelOverrides).forEach(function (r) {
-        var td = tbody.querySelector('td.board-row-label[data-row="' + r + '"]');
-        if (td) td.textContent = labelOverrides[r];
-      });
-
-      // righe aggiunte dinamicamente
-      var extraRows = getJSON(rowsKey, []);
-      function renderExtraRow(rowData, rowIdx) {
-        var tr = document.createElement("tr");
-        tr.setAttribute("data-extra-row", rowIdx);
-        var labelTd = document.createElement("td");
-        labelTd.className = "board-row-label";
-        labelTd.textContent = rowData.label;
-        tr.appendChild(labelTd);
-        rowData.cells.forEach(function (c, ci) {
-          var td = document.createElement("td");
-          td.innerHTML = cellHtml(c.time, c.label, c.empty);
-          td.setAttribute("data-extra-col", ci);
-          tr.appendChild(td);
-          wireCellClick(td, function (val) {
-            rowData.cells[ci] = val;
-            setJSON(rowsKey, extraRows);
-            applyCell(td, val);
-          });
-        });
-        wireLabelClick(labelTd, function (val) {
-          rowData.label = val;
-          setJSON(rowsKey, extraRows);
-          labelTd.textContent = val;
-        });
-        if (isAdmin()) {
-          var rm = document.createElement("button");
-          rm.type = "button"; rm.className = "results-del"; rm.style.marginLeft = "8px";
-          rm.textContent = "Elimina categoria";
-          rm.addEventListener("click", function () {
-            if (!confirm("Eliminare questa categoria dal tabellone?")) return;
-            extraRows.splice(rowIdx, 1);
-            setJSON(rowsKey, extraRows);
-            table.dispatchEvent(new Event("ppf:rerender-board"));
-          });
-          var lastTd = tr.lastElementChild;
-          var wrap = document.createElement("div");
-          wrap.style.marginTop = "6px";
-          wrap.appendChild(rm);
-          lastTd.appendChild(wrap);
-        }
-        return tr;
+        fresh.classList.add("board-flip");
       }
 
       function wireCellClick(td, onSave) {
@@ -932,37 +877,95 @@
         });
       }
 
-      function wireLabelClick(td, onSave) {
-        if (!isAdmin()) return;
-        td.setAttribute("contenteditable", "true");
-        td.addEventListener("blur", function () { onSave(td.textContent.trim()); });
+      // trasforma l'etichetta di riga (statica o dinamica) in: testo editabile + pulsante elimina riga
+      function setupRowLabel(labelTd, getLabel, onRename, onDelete) {
+        labelTd.innerHTML = "";
+        var span = document.createElement("span");
+        span.className = "board-row-label-text";
+        span.textContent = getLabel();
+        labelTd.appendChild(span);
+        if (isAdmin()) {
+          span.setAttribute("contenteditable", "true");
+          span.addEventListener("blur", function () { onRename(span.textContent.trim()); });
+          var del = document.createElement("button");
+          del.type = "button";
+          del.className = "board-row-del";
+          del.setAttribute("aria-label", "Elimina questa categoria dal tabellone");
+          del.textContent = "✕";
+          del.addEventListener("click", function (e) {
+            e.stopPropagation();
+            if (!confirm("Eliminare questa categoria dal tabellone?")) return;
+            onDelete();
+          });
+          labelTd.appendChild(del);
+        }
       }
 
-      function rerenderExtras() {
-        tbody.querySelectorAll("tr[data-extra-row]").forEach(function (tr) { tr.remove(); });
-        extraRows.forEach(function (rowData, idx) { tbody.appendChild(renderExtraRow(rowData, idx)); });
+      // ---- righe statiche presenti nell'HTML ----
+      tbody.querySelectorAll("tr").forEach(function (tr) {
+        var labelTd = tr.querySelector("td.board-row-label[data-row]");
+        if (!labelTd) return;
+        var row = labelTd.getAttribute("data-row");
+
+        if (deletedRows.indexOf(row) > -1) { tr.remove(); return; }
+
+        setupRowLabel(
+          labelTd,
+          function () { return labelOverrides[row] || labelTd.textContent.trim(); },
+          function (val) { labelOverrides[row] = val; setJSON("ppf_board_labels_" + code, labelOverrides); },
+          function () {
+            deletedRows.push(row);
+            setJSON(deletedKey, deletedRows);
+            tr.remove();
+          }
+        );
+
+        tr.querySelectorAll("td[data-row][data-col]").forEach(function (td) {
+          var col = td.getAttribute("data-col");
+          var key = "r" + row + "c" + col;
+          if (overrides[key]) applyCell(td, overrides[key]);
+          wireCellClick(td, function (val) {
+            overrides[key] = val;
+            saveOverrides();
+            applyCell(td, val);
+          });
+        });
+      });
+
+      // ---- righe aggiunte dall'amministratore ----
+      var extraRows = getJSON(rowsKey, []);
+      function renderExtraRow(rowData, rowIdx) {
+        var tr = document.createElement("tr");
+        tr.setAttribute("data-extra-row", rowIdx);
+        var labelTd = document.createElement("td");
+        labelTd.className = "board-row-label";
+        tr.appendChild(labelTd);
+        rowData.cells.forEach(function (c, ci) {
+          var td = document.createElement("td");
+          td.innerHTML = cellHtml(c.time, c.label, c.empty);
+          tr.appendChild(td);
+          wireCellClick(td, function (val) {
+            rowData.cells[ci] = val;
+            setJSON(rowsKey, extraRows);
+            applyCell(td, val);
+          });
+        });
+        setupRowLabel(
+          labelTd,
+          function () { return rowData.label; },
+          function (val) { rowData.label = val; setJSON(rowsKey, extraRows); },
+          function () {
+            var idx = extraRows.indexOf(rowData);
+            if (idx > -1) extraRows.splice(idx, 1);
+            setJSON(rowsKey, extraRows);
+            tr.remove();
+          }
+        );
+        return tr;
       }
-      table.addEventListener("ppf:rerender-board", rerenderExtras);
-      rerenderExtras();
+      extraRows.forEach(function (rowData, idx) { tbody.appendChild(renderExtraRow(rowData, idx)); });
 
-      // aggancia il click alle celle statiche esistenti + alle etichette di riga statiche
-      tbody.querySelectorAll("td[data-row][data-col]").forEach(function (td) {
-        var row = td.getAttribute("data-row"), col = td.getAttribute("data-col");
-        wireCellClick(td, function (val) {
-          overrides["r" + row + "c" + col] = val;
-          saveOverrides();
-          applyCell(td, val);
-        });
-      });
-      tbody.querySelectorAll("td.board-row-label[data-row]").forEach(function (td) {
-        var row = td.getAttribute("data-row");
-        wireLabelClick(td, function (val) {
-          labelOverrides[row] = val;
-          setJSON("ppf_board_labels_" + code, labelOverrides);
-        });
-      });
-
-      // pulsante "aggiungi categoria"
+      // ---- pulsante "aggiungi categoria" ----
       if (isAdmin()) {
         var addBtn = document.createElement("button");
         addBtn.type = "button";
@@ -972,9 +975,10 @@
         addBtn.addEventListener("click", function () {
           var cells = [];
           for (var i = 0; i < dayCount; i++) cells.push({ time: "", label: "", empty: true });
-          extraRows.push({ label: "Nuova categoria", cells: cells });
+          var rowData = { label: "Nuova categoria", cells: cells };
+          extraRows.push(rowData);
           setJSON(rowsKey, extraRows);
-          rerenderExtras();
+          tbody.appendChild(renderExtraRow(rowData, extraRows.length - 1));
         });
         table.closest(".board").insertAdjacentElement("afterend", addBtn);
       }

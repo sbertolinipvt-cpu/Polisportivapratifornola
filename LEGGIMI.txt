@@ -98,10 +98,18 @@ Una volta entrati:
   foto per sostituirla, cliccare su nome o profilo per modificarli
   direttamente (bordo tratteggiato rosso, si salva uscendo dal campo), e
   usare la "✕" in alto a destra per rimuovere una scheda.
+- TABELLONE ORARI: da amministratore, cliccando su QUALSIASI cella (anche
+  quelle vuote, col trattino "—") si apre una scheda con "Orario" ed
+  "Etichetta": scrivete e premete "Salva" per riempirla, oppure "Svuota
+  cella" per svuotarla di nuovo. Ogni categoria — comprese quelle già
+  presenti in origine, non solo quelle che aggiungete voi — ha una "✕" per
+  eliminarla dal tabellone, e il nome della categoria è modificabile
+  cliccandoci sopra. Il pulsante "+ Aggiungi categoria al tabellone", sotto
+  ogni tabellone, aggiunge una nuova riga con lo stesso stile delle altre.
 - Il pulsante "Ripristina testi/foto" in alto riporta testi, sfondi e foto
-  ai valori originali del sito (gare, risultati, eventi, staff e foto
-  aggiunte alla gallery NON vengono toccati da questo pulsante). Il
-  pulsante "Esci" chiude la sessione da amministratore.
+  ai valori originali del sito (gare, risultati, eventi, staff, tabellone
+  orari e foto aggiunte alla gallery NON vengono toccati da questo
+  pulsante). Il pulsante "Esci" chiude la sessione da amministratore.
 
 FOTO REALI: NOTA IMPORTANTE SUL COPYRIGHT
 --------------------------------------------
@@ -138,13 +146,17 @@ spazio finisce.
 Altre personalizzazioni da fare
 ---------------------------------
 1. TESTI E DATI — Orari precisi, indirizzo esatto, telefono/email reali,
-   P.IVA/C.F. ed eventi del calendario (nei tag <script> in fondo a ogni
-   pagina) sono contenuti di esempio da verificare con il direttivo.
-2. MODULO CONTATTI — Il form in contatti.html è dimostrativo: mostra solo
-   un messaggio di conferma. Per renderlo attivo collegatelo a Formspree
-   (https://formspree.io) o a un vostro script lato server.
-3. MAPPA — Sostituite le coordinate nell'iframe di contatti.html con quelle
-   esatte della sede, se necessario.
+   P.IVA/C.F. ed eventi del calendario sono contenuti di esempio da
+   verificare con il direttivo (il calendario si gestisce comunque dal
+   pannello amministratore, vedi sopra).
+2. CONTATTI — Il form di richiesta è stato rimosso su vostra richiesta: la
+   pagina Contatti ora mostra solo indirizzo, recapiti e mappa. Se in
+   futuro vorrete comunque un modulo di richiesta, possiamo ricrearlo
+   collegato a un servizio come Formspree (https://formspree.io) o al
+   vostro indirizzo email.
+3. MAPPA — Mostra già la posizione reale della palestra della Polisportiva
+   (Arci Uisp - Polisportiva Prati Fornola, palestra comunale) e cliccandoci
+   sopra si apre Google Maps con la posizione esatta in una nuova scheda.
 
 Note tecniche
 -------------
