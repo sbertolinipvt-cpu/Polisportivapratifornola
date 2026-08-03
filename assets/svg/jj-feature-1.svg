@@ -1,0 +1,14 @@
+<svg viewBox="0 0 900 620" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="La squadra al completo">
+<title>La squadra al completo</title>
+<rect width="900" height="620" fill="#C31E2A"/>
+<polygon points="0,0 900,0 315.0,620 0,620" fill="#8F1620" opacity="0.4"/>
+<polygon points="900,0 900,620 540.0,620" fill="#8F1620" opacity="0.22"/>
+<g transform="translate(450.0,350.0) scale(0.95)" fill="none" stroke="#FFFFFF" stroke-width="14" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="-30" cy="-150" r="34" fill="#FFFFFF" stroke="none"/>
+  <path d="M -30 -116 L -30 -20 L -110 60"/>
+  <path d="M -30 -20 L 60 -55 L 130 -125"/>
+  <path d="M -30 -20 L 20 90 L -10 190"/>
+  <path d="M -30 -20 L -90 70 L -70 180"/>
+  <path d="M -170 100 L -60 60 L 40 100" opacity="0.55"/>
+</g>
+</svg>
