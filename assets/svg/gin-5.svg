@@ -1,0 +1,12 @@
+<svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Preparazione gara">
+<title>Preparazione gara</title>
+<rect width="800" height="600" fill="#C31E2A"/><path d="M -40 -56 L 400.0 34 L 840 -56 L 840 -16 L 400.0 74 L -40 -16 Z" fill="#8F1620" opacity="0.35"/><path d="M -40 0 L 400.0 90 L 840 0 L 840 40 L 400.0 130 L -40 40 Z" fill="#8F1620" opacity="0.35"/><path d="M -40 56 L 400.0 146 L 840 56 L 840 96 L 400.0 186 L -40 96 Z" fill="#8F1620" opacity="0.35"/><path d="M -40 112 L 400.0 202 L 840 112 L 840 152 L 400.0 242 L -40 152 Z" fill="#8F1620" opacity="0.35"/><path d="M -40 168 L 400.0 258 L 840 168 L 840 208 L 400.0 298 L -40 208 Z" fill="#8F1620" opacity="0.35"/><path d="M -40 224 L 400.0 314 L 840 224 L 840 264 L 400.0 354 L -40 264 Z" fill="#8F1620" opacity="0.35"/><path d="M -40 280 L 400.0 370 L 840 280 L 840 320 L 400.0 410 L -40 320 Z" fill="#8F1620" opacity="0.35"/><path d="M -40 336 L 400.0 426 L 840 336 L 840 376 L 400.0 466 L -40 376 Z" fill="#8F1620" opacity="0.35"/><path d="M -40 392 L 400.0 482 L 840 392 L 840 432 L 400.0 522 L -40 432 Z" fill="#8F1620" opacity="0.35"/><path d="M -40 448 L 400.0 538 L 840 448 L 840 488 L 400.0 578 L -40 488 Z" fill="#8F1620" opacity="0.35"/><path d="M -40 504 L 400.0 594 L 840 504 L 840 544 L 400.0 634 L -40 544 Z" fill="#8F1620" opacity="0.35"/><path d="M -40 560 L 400.0 650 L 840 560 L 840 600 L 400.0 690 L -40 600 Z" fill="#8F1620" opacity="0.35"/><path d="M -40 616 L 400.0 706 L 840 616 L 840 656 L 400.0 746 L -40 656 Z" fill="#8F1620" opacity="0.35"/><path d="M -40 672 L 400.0 762 L 840 672 L 840 712 L 400.0 802 L -40 712 Z" fill="#8F1620" opacity="0.35"/>
+<g transform="translate(400,300)" fill="none" stroke="#FFFFFF" stroke-width="14" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="0" cy="-170" r="30" fill="#FFFFFF" stroke="none"/>
+  <path d="M 0 -140 L 0 -40"/>
+  <path d="M 0 -110 L -140 -170"/>
+  <path d="M 0 -110 L 140 -60"/>
+  <path d="M 0 -40 L -70 90 L -40 190"/>
+  <path d="M 0 -40 L 90 40 L 60 170"/>
+</g>
+</svg>
